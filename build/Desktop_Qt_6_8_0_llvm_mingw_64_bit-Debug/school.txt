@@ -1,0 +1,16 @@
+STUDENTS
+2
+1 likitha 25 9876541235
+2 pallavi 25 9874563214
+FACULTIES
+2
+1 likitha mba 25 be
+2 pallavi mba 25 mba
+FEES
+2
+10 25000.000000 1 likitha 25 9876541235
+20 50000.000000 2 pallavi 25 9874563214
+SECTIONS
+2
+1 first 1 likitha 25 9876541235
+2 second 2 pallavi 25 9874563214

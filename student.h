@@ -21,4 +21,7 @@ void sortStudentsByName();
 void addStudentToList(struct Student *newStudent);
 int getTotalStudentCount();
 
+struct Student* mergeSortedLists(struct Student* left, struct Student* right);
+struct Student* getMiddle(struct Student* head);
+
 #endif

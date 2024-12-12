@@ -9,27 +9,31 @@ void addFeesToList(struct Fees *newFees) {
     if (feesHead == NULL) {
         feesHead = newFees;
     } else {
-        struct Fees *current = feesHead;
-        while (current->next != NULL) {
-            current = current->next;
+        struct Fees *temp = feesHead;
+        while (temp->next != NULL) {
+            temp = temp->next;
         }
-        current->next = newFees;
+        temp->next = newFees;
     }
 }
 
-
 void insertFees(int studentID, int receipt_number, float paid_amount) {
     struct Student *student = NULL;
-    for (struct Student *current = studentHead; current != NULL; current = current->next) {
-        if (current->id == studentID) {
-            student = current;
+
+    struct Student *temp = studentHead;
+    while (temp != NULL) {
+        if (temp->id == studentID) {
+            student = temp;
             break;
         }
+        temp = temp->next;
     }
+
     if (student == NULL) {
         printf("Student with ID %d not found!\n", studentID);
         return;
     }
+
     struct Fees *newFees = (struct Fees *)malloc(sizeof(struct Fees));
     if (!newFees) {
         printf("Memory allocation failed!\n");
@@ -53,13 +57,14 @@ void displayFeesDetails() {
     }
 
     printf("\nFees Details:\n");
-    struct Fees *current = feesHead;
-    while (current != NULL) {
-        printf("Receipt Number: %d, Paid Amount: %.2f\n",
-               current->receipt_number, current->paid_amount);
 
-        if (current->studentDetails != NULL) {
-            struct Student *student = current->studentDetails;
+    struct Fees *temp = feesHead;
+    while (temp != NULL) {
+        printf("Receipt Number: %d, Paid Amount: %.2f\n",
+               temp->receipt_number, temp->paid_amount);
+
+        if (temp->studentDetails != NULL) {
+            struct Student *student = temp->studentDetails;
 
             printf("Student ID: %d, Name: %s, Age: %d, Contact Number: %s\n",
                    student->id,
@@ -70,6 +75,6 @@ void displayFeesDetails() {
             printf("No student details available.\n");
         }
 
-        current = current->next;
+        temp = temp->next;
     }
 }

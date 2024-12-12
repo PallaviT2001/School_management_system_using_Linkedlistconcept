@@ -11,6 +11,7 @@ void insertFaculty(int id, const char *name, const char *department, int age, co
         printf("Memory allocation failed!\n");
         exit(EXIT_FAILURE);
     }
+
     newFaculty->id = id;
     strncpy(newFaculty->name, name, sizeof(newFaculty->name) - 1);
     newFaculty->name[sizeof(newFaculty->name) - 1] = '\0';
@@ -19,47 +20,69 @@ void insertFaculty(int id, const char *name, const char *department, int age, co
     newFaculty->age = age;
     strncpy(newFaculty->qualification, qualification, sizeof(newFaculty->qualification) - 1);
     newFaculty->qualification[sizeof(newFaculty->qualification) - 1] = '\0';
-    newFaculty->next = facultyHead; // Insert at the beginning
-    facultyHead = newFaculty;
-    printf("Faculty added successfully!\n");
-}
+    newFaculty->next = NULL;
 
-void deleteFaculty(int id) {
-    struct Faculty *current = facultyHead, *prev = NULL;
-    while (current != NULL && current->id != id) {
-        prev = current;
-        current = current->next;
+    if (facultyHead == NULL || strcmp(facultyHead->name, newFaculty->name) > 0) {
+        newFaculty->next = facultyHead;
+        facultyHead = newFaculty;
+    } else {
+        struct Faculty *current = facultyHead;
+        while (current->next != NULL && strcmp(current->next->name, newFaculty->name) < 0) {
+            current = current->next;
+        }
+        newFaculty->next = current->next;
+        current->next = newFaculty;
     }
-    if (current == NULL) {
+    printf("Faculty added successfully in alphabetical order!\n");
+}
+void deleteFaculty(int id) {
+    if (facultyHead == NULL) {
+        printf("Faculty list is empty.\n");
+        return;
+    }
+
+    struct Faculty *temp = facultyHead, *prev = NULL;
+
+    while (temp != NULL && temp->id != id) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
         printf("Faculty with ID %d not found!\n", id);
         return;
     }
+
     if (prev == NULL) {
-        facultyHead= current->next; // Deleting the head node
+        facultyHead = temp->next;
     } else {
-        prev->next = current->next;
+        prev->next = temp->next;
     }
-    free(current);
+
+    free(temp);
     printf("Faculty deleted successfully!\n");
 }
 
 void updateFaculty(int id) {
-    struct Faculty *current = facultyHead;
-    while (current != NULL && current->id != id) {
-        current = current->next;
+    struct Faculty *temp = facultyHead;
+
+    while (temp != NULL && temp->id != id) {
+        temp = temp->next;
     }
-    if (current == NULL) {
+
+    if (temp == NULL) {
         printf("Faculty with ID %d not found!\n", id);
         return;
     }
+
     printf("Enter new name: ");
-    scanf(" %[^\n]", current->name);
+    scanf(" %[^\n]", temp->name);
     printf("Enter new department: ");
-    scanf(" %[^\n]", current->department);
+    scanf(" %[^\n]", temp->department);
     printf("Enter new age: ");
-    scanf("%d", &current->age);
+    scanf("%d", &temp->age);
     printf("Enter new qualification: ");
-    scanf(" %[^\n]", current->qualification);
+    scanf(" %[^\n]", temp->qualification);
     printf("Faculty updated successfully!\n");
 }
 
@@ -68,41 +91,75 @@ void displayFacultyDetails() {
         printf("No faculties available.\n");
         return;
     }
+
     printf("\nFaculty Details:\n");
-    struct Faculty *current = facultyHead;
-    while (current != NULL) {
+    struct Faculty *temp = facultyHead;
+    while (temp != NULL) {
         printf("ID: %d, Name: %s, Department: %s, Age: %d, Qualification: %s\n",
-               current->id, current->name, current->department, current->age, current->qualification);
-        current = current->next;
+               temp->id, temp->name, temp->department, temp->age, temp->qualification);
+        temp = temp->next;
     }
 }
 
+struct Faculty* mergeFacultySortedLists(struct Faculty* left, struct Faculty* right) {
+    if (!left) return right;
+    if (!right) return left;
+
+    struct Faculty* result = NULL;
+
+    if (left->id <= right->id) {
+        result = left;
+        result->next = mergeFacultySortedLists(left->next, right);
+    } else {
+        result = right;
+        result->next = mergeFacultySortedLists(left, right->next);
+    }
+    return result;
+}
+
+struct Faculty* getFacultyMiddle(struct Faculty* head) {
+    if (!head) return head;
+
+    struct Faculty* slow = head;
+    struct Faculty* fast = head->next;
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
+struct Faculty* mergeSortFaculty(struct Faculty* head) {
+    if (!head || !head->next) return head;
+
+    struct Faculty* middle = getFacultyMiddle(head);
+    struct Faculty* nextOfMiddle = middle->next;
+
+    middle->next = NULL;
+
+    struct Faculty* left = mergeSortFaculty(head);
+    struct Faculty* right = mergeSortFaculty(nextOfMiddle);
+
+    return mergeFacultySortedLists(left, right);
+}
+
 void sortFacultiesByID() {
-    if (facultyHead== NULL || facultyHead->next == NULL) {
+    if (facultyHead == NULL || facultyHead->next == NULL) {
         printf("Not enough faculties to sort.\n");
         return;
     }
-    for (struct Faculty *i = facultyHead; i != NULL; i = i->next) {
-        for (struct Faculty *j = i->next; j != NULL; j = j->next) {
-            if (i->id > j->id) {
-                struct Faculty temp = *i;
-                *i = *j;
-                *j = temp;
-                temp.next = i->next;
-                i->next = j->next;
-                j->next = temp.next;
-            }
-        }
-    }
+    facultyHead = mergeSortFaculty(facultyHead);
     printf("Faculties sorted by ID.\n");
     displayFacultyDetails();
 }
 
 void sortFacultiesByName() {
-    if (facultyHead== NULL || facultyHead->next == NULL) {
+    if (facultyHead == NULL || facultyHead->next == NULL) {
         printf("Not enough faculties to sort.\n");
         return;
     }
+
     for (struct Faculty *i = facultyHead; i != NULL; i = i->next) {
         for (struct Faculty *j = i->next; j != NULL; j = j->next) {
             if (strcmp(i->name, j->name) > 0) {
@@ -120,12 +177,14 @@ void sortFacultiesByName() {
 }
 
 int getTotalFacultyCount() {
-    struct Faculty *current = facultyHead;
+    struct Faculty *temp = facultyHead;
     int count = 0;
-    while (current != NULL) {
+
+    while (temp != NULL) {
         count++;
-        current = current->next;
+        temp = temp->next;
     }
+
     return count;
 }
 
@@ -133,11 +192,10 @@ void addFacultyToList(struct Faculty *newFaculty) {
     if (facultyHead == NULL) {
         facultyHead = newFaculty;
     } else {
-        struct Faculty *current = facultyHead;
-        while (current->next != NULL) {
-            current = current->next;
+        struct Faculty *temp = facultyHead;
+        while (temp->next != NULL) {
+            temp = temp->next;
         }
-        current->next = newFaculty;
+        temp->next = newFaculty;
     }
 }
-

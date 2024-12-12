@@ -13,6 +13,7 @@ enum MainMenuChoice {
     FACULTY_OPERATIONS,
     FEES_OPERATIONS,
     SECTION_OPERATIONS,
+    SAVE_FILE,
     EXIT_PROGRAM
 };
 
@@ -62,7 +63,8 @@ int mainprogram() {
         printf("2. Perform Faculty Operations\n");
         printf("3. Perform Fees Operations\n");
         printf("4. Perform Section Operations\n");
-        printf("5. Save all Data and exit\n");
+        printf("5. Save all data to file\n");
+        printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -188,8 +190,8 @@ int mainprogram() {
             case TOTAL_FACULTY_COUNT:
                 printf("Total faculty count: %d\n", getTotalFacultyCount());
                 break;
-            case EXIT_FACULTY:
-                printf("Exiting Faculty Operations.\n");
+            case EXIT_STUDENT:
+                printf("Exiting Student Operations.\n");
                 break;
             default:
                 printf("Invalid choice!\n");
@@ -264,12 +266,12 @@ int mainprogram() {
             }
             break;
         }
-
-        case EXIT_PROGRAM:
+        case SAVE_FILE:
             saveAllDataToFile("school.txt");
+            break;
+        case EXIT_PROGRAM:
             printf("Exiting the program. Goodbye!\n");
             return 0;
-
         default:
             printf("Invalid choice!\n");
         }
