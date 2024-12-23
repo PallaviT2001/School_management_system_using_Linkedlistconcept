@@ -1,0 +1,61 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-7ceeba3a21ed38d160c4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "school_management_system_linkedlist",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "school_management_system_linkedlist::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-school_management_system_linkedlist-Debug-b4bb684051546ca54898.json",
+					"name" : "school_management_system_linkedlist",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/QT PROGRAMS/school_management_system_linkedlist/build/Desktop_Qt_6_8_0_llvm_mingw_64_bit-Debug",
+		"source" : "D:/QT PROGRAMS/school_management_system_linkedlist"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

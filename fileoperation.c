@@ -79,8 +79,9 @@ void saveAllDataToFile(const char *filename) {
 
 void loadAllDataFromFile(const char *filename) {
     FILE *file = fopen(filename, "r");
+    //return;
     if (file == NULL) {
-        perror("No existing data file found. Starting fresh.");
+        perror("No data found.");
         return;
     }
 

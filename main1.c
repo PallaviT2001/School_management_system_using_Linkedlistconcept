@@ -53,6 +53,7 @@ enum SectionMenuChoice {
 
 int mainprogram() {
     loadAllDataFromFile("school.txt");
+    //return 5;
     if (!adminLogin()) {
         return 1;
     }
