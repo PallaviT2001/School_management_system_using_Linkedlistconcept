@@ -25,6 +25,7 @@ enum StudentMenuChoice {
     SORT_STUDENTS_BY_ID,
     SORT_STUDENTS_BY_NAME,
     TOTAL_STUDENT_COUNT,
+    SEARCH_STUDENT,
     EXIT_STUDENT
 };
 
@@ -36,6 +37,7 @@ enum FacultyMenuChoice {
     SORT_FACULTIES_BY_ID,
     SORT_FACULTIES_BY_NAME,
     TOTAL_FACULTY_COUNT,
+    SEARCH_FACULTY,
     EXIT_FACULTY
 };
 
@@ -53,7 +55,6 @@ enum SectionMenuChoice {
 
 int mainprogram() {
     loadAllDataFromFile("school.txt");
-    //return 5;
     if (!adminLogin()) {
         return 1;
     }
@@ -80,7 +81,8 @@ int mainprogram() {
             printf("5. Sort and Display Students by ID\n");
             printf("6. Sort and Display Students by Name\n");
             printf("7. Total Student Count\n");
-            printf("8. Exit\n");
+            printf("8. Search student by using their ID\n");
+            printf("9. Exit\n");
             printf("Enter your choice: ");
             scanf("%d", &studentChoice);
 
@@ -125,6 +127,13 @@ int mainprogram() {
             case TOTAL_STUDENT_COUNT:
                 printf("Total student count: %d\n", getTotalStudentCount());
                 break;
+            case SEARCH_STUDENT:{
+                int id;
+                printf("Enter student ID to search: ");
+                scanf("%d", &id);
+                searchStudentById(id);  // Pass id, not &id
+                break;
+            }
             case EXIT_STUDENT:
                 printf("Exiting Student Operations.\n");
                 break;
@@ -144,6 +153,7 @@ int mainprogram() {
             printf("5. Sort and Display Faculties by ID\n");
             printf("6. Sort and Display Faculties by Name\n");
             printf("7. Total Faculty Count\n");
+            printf("8. Search faculty by using their ID\n");
             printf("8. Exit\n");
             printf("Enter your choice: ");
             scanf("%d", &facultyChoice);
@@ -191,6 +201,13 @@ int mainprogram() {
             case TOTAL_FACULTY_COUNT:
                 printf("Total faculty count: %d\n", getTotalFacultyCount());
                 break;
+            case SEARCH_FACULTY:{
+                int id;
+                printf("Enter faculty ID to search: ");
+                scanf("%d", &id);
+                searchFacultyById(id);
+                break;
+            }
             case EXIT_STUDENT:
                 printf("Exiting Student Operations.\n");
                 break;

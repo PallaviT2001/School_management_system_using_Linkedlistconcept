@@ -8,12 +8,16 @@
 #include <string.h>
 
 void saveAllDataToFile(const char *filename) {
-    FILE *file = fopen(filename, "w");
+    FILE *file = fopen(filename, "r+");
     if (file == NULL) {
-        perror("Error opening file for saving all data!");
-        return;
+        file = fopen(filename, "w+");
+        if(file==NULL)
+        {
+            printf("could not open file\n",filename);
+            return ;
+        }
     }
-
+    fseek(file, 0, SEEK_END);
     fprintf(file, "STUDENTS\n");
     struct Student *student = studentHead;
     int studentCount = getTotalStudentCount();
@@ -79,7 +83,6 @@ void saveAllDataToFile(const char *filename) {
 
 void loadAllDataFromFile(const char *filename) {
     FILE *file = fopen(filename, "r");
-    //return;
     if (file == NULL) {
         perror("No data found.");
         return;
@@ -158,6 +161,6 @@ void loadAllDataFromFile(const char *filename) {
         }
     }
 
-    fclose(file);
+    //fclose(file);
     printf("All data loaded successfully from %s.\n", filename);
 }

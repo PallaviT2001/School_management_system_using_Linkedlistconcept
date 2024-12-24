@@ -22,6 +22,8 @@ void sortFacultiesByName();
 void addFacultyToList(struct Faculty *newFaculty);
 int getTotalFacultyCount();
 
+void searchFacultyById(int id);
+
 struct Faculty* mergeFacultySortedLists(struct Faculty* left, struct Faculty* right);
 struct Faculty* getFacultyMiddle(struct Faculty* head);
 

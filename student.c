@@ -170,6 +170,21 @@ void sortStudentsByName() {
     displayStudentDetails();
 }
 
+void searchStudentById(int id) {
+    struct Student *temp = studentHead;
+
+    while (temp != NULL) {
+        if (temp->id == id) {
+            printf("Student found:\n");
+            printf("ID: %d, Name: %s, Age: %d, Contact Number: %s\n",
+                   temp->id, temp->name, temp->age, temp->contactNumber);
+            return;
+        }
+        temp = temp->next;
+    }
+    printf("Student with ID %d not found!\n", id);
+}
+
 void addStudentToList(struct Student *newStudent) {
     if (studentHead == NULL) {
         studentHead = newStudent;

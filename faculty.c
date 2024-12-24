@@ -176,6 +176,23 @@ void sortFacultiesByName() {
     displayFacultyDetails();
 }
 
+void searchFacultyById(int id) {
+    struct Faculty *temp = facultyHead;
+
+    while (temp != NULL) {
+        if (temp->id == id) {
+            printf("\nFaculty found:\n");
+            printf("ID: %d, Name: %s, Department: %s, Age: %d, Qualification: %s\n",
+                   temp->id, temp->name, temp->department, temp->age, temp->qualification);
+            return;
+        }
+        temp = temp->next;
+    }
+
+    printf("Faculty with ID %d not found!\n", id);
+}
+
+
 int getTotalFacultyCount() {
     struct Faculty *temp = facultyHead;
     int count = 0;

@@ -24,4 +24,6 @@ int getTotalStudentCount();
 struct Student* mergeSortedLists(struct Student* left, struct Student* right);
 struct Student* getMiddle(struct Student* head);
 
+void searchStudentById(int id);
+
 #endif
